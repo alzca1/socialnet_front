@@ -7,14 +7,17 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
+import { Container } from "semantic-ui-react";
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Route exact path="/" component={Home} />
-      <Route exact path="/Login" component={Login} />
-      <Route exact path="/Signup" component={Signup} />
+      <Container>
+        <Navbar />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/Login" component={Login} />
+        <Route exact path="/Signup" component={Signup} />
+      </Container>
     </Router>
   );
 }
