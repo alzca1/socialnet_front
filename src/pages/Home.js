@@ -36,7 +36,7 @@ function Home() {
           data.getPosts &&
           data.getPosts.map((post) => (
             <Grid.Column>
-              <Post post={post} />
+              <Post post={post} key={post.id} />
             </Grid.Column>
           ))
         )}
