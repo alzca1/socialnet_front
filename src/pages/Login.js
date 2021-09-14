@@ -1,9 +1,86 @@
-import React from 'react'
+import React, { useState } from "react";
+import gql from "graphql-tag";
+import { Form, Button } from "semantic-ui-react";
+import { useForm } from "../util/hooks";
+import { useMutation } from "@apollo/client";
 
-export default function Login() {
-    return (
-        <div>
-            <h1>Login</h1>
-        </div>
-    )
+const LOGIN_USER = gql`
+  mutation login($username: String!, $password: String!) {
+    login(loginInfo: { username: $username, password: $password }) {
+      id
+      email
+      token
+    }
+  }
+`;
+
+export default function Login(props) {
+  const [errors, setErrors] = useState({});
+
+  const { onChange, onSubmit, values } = useForm(submitUser, {
+    username: "",
+    password: "",
+  });
+
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    update(proxy, result) {
+      console.log(result);
+      props.history.push("/");
+    },
+    onError(error) {
+      console.log("error graphql", error.graphQLErrors);
+      const graphqlError = error.graphQLErrors[0].extensions.errors;
+      setErrors(graphqlError);
+    },
+    variables: values,
+  });
+
+  function submitUser() {
+    loginUser();
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <div>
+        <Form
+          onSubmit={onSubmit}
+          noValidate
+          className={loading ? "loading" : ""}
+          error
+        >
+          <h1>Login</h1>
+          <Form.Input
+            label="Username"
+            placeholder="Username..."
+            name="username"
+            value={values.username}
+            onChange={onChange}
+            
+          />
+          <Form.Input
+            label="Password"
+            placeholder="Password..."
+            name="password"
+            value={values.password}
+            onChange={onChange}
+            type="password"
+            
+          />
+          <Button type="submit" primary>
+            Login
+          </Button>
+          {Object.keys(errors).length > 0 && (
+            <div className="ui error form message">
+              <ul className="list">
+                {Object.values(errors).map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </Form>
+      </div>
+    </div>
+  );
 }
