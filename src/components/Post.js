@@ -4,7 +4,16 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 export default function Post({
-  post: { body, createdAt, id, user, likesCount,commentsCount, likes },
+  post: {
+    body,
+    createdAt,
+    id,
+    user,
+    likesCount,
+    commentsCount,
+    likes,
+    username,
+  },
 }) {
   const likePost = () => {
     console.log("post liked!");
@@ -12,7 +21,6 @@ export default function Post({
 
   const commentPost = () => {
     console.log("commenting post");
-    console.log(commentsCount)
   };
   return (
     <Card fluid>
@@ -22,7 +30,7 @@ export default function Post({
           size="mini"
           src="https://react.semantic-ui.com/images/avatar/large/steve.jpg"
         />
-        <Card.Header>{user}</Card.Header>
+        <Card.Header>{username}</Card.Header>
         <Card.Meta as={Link} to={`/posts/${id}`}>
           {moment(createdAt).fromNow()}
         </Card.Meta>
