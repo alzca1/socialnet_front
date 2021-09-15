@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import gql from "graphql-tag";
 import { Form, Button } from "semantic-ui-react";
 import { useForm } from "../util/hooks";
@@ -28,12 +28,10 @@ export default function Login(props) {
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(proxy, result) {
-      console.log(result);
-      context.login(result.data.login)
+      context.login(result.data.login);
       props.history.push("/");
     },
     onError(error) {
-      console.log("error graphql", error.graphQLErrors);
       const graphqlError = error.graphQLErrors[0].extensions.errors;
       setErrors(graphqlError);
     },
@@ -61,7 +59,6 @@ export default function Login(props) {
             name="username"
             value={values.username}
             onChange={onChange}
-            
           />
           <Form.Input
             label="Password"
@@ -70,7 +67,6 @@ export default function Login(props) {
             value={values.password}
             onChange={onChange}
             type="password"
-            
           />
           <Button type="submit" primary>
             Login

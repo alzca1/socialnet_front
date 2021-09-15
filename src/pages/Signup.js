@@ -47,10 +47,9 @@ export default function Signup(props) {
       props.history.push("/");
     },
     onError(error) {
-      console.log(values)
-      console.log(error.graphQLErrors)
+      
       const graphqlErr = error.graphQLErrors[0].extensions.errors;
-      console.log("errores", error.graphQLErrors[0]);
+      
       setErrors(graphqlErr);
     },
     variables: values,

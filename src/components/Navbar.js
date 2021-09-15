@@ -6,7 +6,7 @@ import { AuthContext } from "../context/auth";
 export default function Navbar() {
   const path = window.location.pathname;
   const { user, logout } = useContext(AuthContext);
-  console.log(user);
+  
   const pathname = path === "/" ? "home" : path.substr(1);
   const [activeItem, setActiveItem] = useState(pathname);
 

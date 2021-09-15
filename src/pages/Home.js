@@ -1,27 +1,14 @@
-import React from "react";
-import { useQuery, gql } from "@apollo/client";
-import { Grid } from "semantic-ui-react";
+import React, { useContext } from "react";
+import { useQuery } from "@apollo/client";
+import { Grid, Transition } from "semantic-ui-react";
 import Post from "../components/Post";
-const FETCH_POSTS_QUERY = gql`
-  {
-    getPosts {
-      id
-      body
-      user
-      likesCount
-      commentsCount
-      likes {
-        id
-      }
-      comments {
-        body
-        username
-      }
-    }
-  }
-`;
+import { AuthContext } from "../context/auth";
+import PostForm from "../components/PostForm";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
+
 
 function Home() {
+  const { user } = useContext(AuthContext);
   const { loading, error, data } = useQuery(FETCH_POSTS_QUERY);
 
   return (
@@ -29,16 +16,23 @@ function Home() {
       <Grid.Row centered className="page-title">
         <h1>Recent Posts</h1>
       </Grid.Row>
+      {user && (
+        <Grid.Column>
+          <PostForm />
+        </Grid.Column>
+      )}
       <Grid.Row>
         {loading ? (
           <h1>Loading posts...</h1>
         ) : (
-          data.getPosts &&
-          data.getPosts.map((post) => (
-            <Grid.Column>
-              <Post post={post} key={post.id} />
-            </Grid.Column>
-          ))
+          <Transition.Group duration={1000}>
+            {data.getPosts &&
+              data.getPosts.map((post) => (
+                <Grid.Column>
+                  <Post post={post} key={post.id} />
+                </Grid.Column>
+              ))}
+          </Transition.Group>
         )}
       </Grid.Row>
     </Grid>
