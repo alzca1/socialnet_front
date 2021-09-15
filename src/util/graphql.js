@@ -7,7 +7,7 @@ export const CREATE_POST_MUTATION = gql`
       body
       username
       createdAt
-      user
+      # user
       likes {
         id
         username
@@ -30,7 +30,7 @@ export const FETCH_POSTS_QUERY = gql`
     getPosts {
       id
       body
-      user
+      username
       likesCount
       commentsCount
       likes {

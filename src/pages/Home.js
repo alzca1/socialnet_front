@@ -11,6 +11,7 @@ function Home() {
   const { user } = useContext(AuthContext);
   const { loading, error, data } = useQuery(FETCH_POSTS_QUERY);
 
+
   return (
     <Grid columns={3}>
       <Grid.Row centered className="page-title">

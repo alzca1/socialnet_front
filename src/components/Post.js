@@ -1,20 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Card, Icon, Label, Image, Button } from "semantic-ui-react";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth";
 
 export default function Post({
-  post: {
-    body,
-    createdAt,
-    id,
-    user,
-    likesCount,
-    commentsCount,
-    likes,
-    username,
-  },
+  post: { body, createdAt, id, likesCount, commentsCount, likes, username },
 }) {
+  const { user } = useContext(AuthContext);
+  console.log("user", user, "username", username);
+
   const likePost = () => {
     console.log("post liked!");
   };
@@ -45,7 +40,7 @@ export default function Post({
             {likesCount}
           </Label>
         </Button>
-        <Button as="div" labelPosition="right" onClick={commentPost}>
+        <Button as="div" labelPosition="right" as={Link} to={`/posts/${id}`}>
           <Button color="blue" basic>
             <Icon name="comments" />
           </Button>
@@ -53,6 +48,19 @@ export default function Post({
             {commentsCount}
           </Label>
         </Button>
+        {user && user.username === username && (
+          <Button
+            as="div"
+            floated="right"
+            color="red"
+            size="mini"
+            as={Link}
+            style={{alignSelf: "bottom"}}
+            onClick={() => console.log("deleted")}
+          >
+            <Icon name="trash" color="white" style={{ margin: 0 }} />
+          </Button>
+        )}
       </Card.Content>
     </Card>
   );
